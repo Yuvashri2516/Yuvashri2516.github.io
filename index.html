@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PrepQuest</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0b1120;
+      color: white;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 60px;
+      background: #020617;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .logo {
+      color: #38bdf8;
+    }
+
+    .nav-btn {
+      margin-left: 15px;
+      padding: 8px 18px;
+      border: none;
+      background: #1e293b;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .register {
+      background: #38bdf8;
+      color: black;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+    }
+
+    .hero p {
+      color: #94a3b8;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    .categories {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 40px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: #020617;
+      padding: 25px;
+      width: 240px;
+      border-radius: 12px;
+      border: 1px solid #1e293b;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: #38bdf8;
+    }
+
+    .card p {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <h2 class="logo">PrepQuest</h2>
+    <div>
+      <button class="nav-btn">Login</button>
+      <button class="nav-btn register">Register</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h1>Level Up Your Placement Preparation 🚀</h1>
+    <p>
+      Practice Quantitative Aptitude, Logical Reasoning, Verbal Ability,
+      and Coding Challenges in a gamified way.
+    </p>
+  </div>
+
+  <div class="categories">
+    <div class="card">
+      <h3>📊 Quantitative Aptitude</h3>
+      <p>Solve aptitude problems and improve speed & accuracy.</p>
+    </div>
+
+    <div class="card">
+      <h3>🧠 Logical Reasoning</h3>
+      <p>Strengthen analytical thinking.</p>
+    </div>
+
+    <div class="card">
+      <h3>📖 Verbal Ability</h3>
+      <p>Master grammar and communication skills.</p>
+    </div>
+
+    <div class="card">
+      <h3>💻 Coding Challenges</h3>
+      <p>Practice interview problems.</p>
+    </div>
+  </div>
+
+</body>
+</html>
