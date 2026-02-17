@@ -1,124 +1,207 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>PrepQuest</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #0b1120;
-      color: white;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrepQuest</title>
 
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      padding: 20px 60px;
-      background: #020617;
-      border-bottom: 1px solid #1e293b;
-    }
+<style>
+/* ===== GLOBAL ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    .logo {
-      color: #38bdf8;
-    }
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(to bottom, #0b1120, #020617);
+  color: white;
+}
 
-    .nav-btn {
-      margin-left: 15px;
-      padding: 8px 18px;
-      border: none;
-      background: #1e293b;
-      color: white;
-      cursor: pointer;
-      border-radius: 6px;
-    }
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background: #020617;
+  border-bottom: 1px solid #1e293b;
+}
 
-    .register {
-      background: #38bdf8;
-      color: black;
-    }
+.logo {
+  color: #38bdf8;
+  font-size: 22px;
+  font-weight: bold;
+}
 
-    .hero {
-      text-align: center;
-      padding: 80px 20px;
-    }
+.nav-buttons button {
+  margin-left: 15px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+}
 
-    .hero h1 {
-      font-size: 42px;
-    }
+.login-btn {
+  background: #1e293b;
+  color: white;
+}
 
-    .hero p {
-      color: #94a3b8;
-      max-width: 650px;
-      margin: auto;
-    }
+.register-btn {
+  background: #38bdf8;
+  color: black;
+}
 
-    .categories {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      padding: 40px;
-      flex-wrap: wrap;
-    }
+.nav-buttons button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
 
-    .card {
-      background: #020617;
-      padding: 25px;
-      width: 240px;
-      border-radius: 12px;
-      border: 1px solid #1e293b;
-      transition: 0.3s;
-    }
+/* ===== HERO ===== */
+.hero {
+  text-align: center;
+  padding: 100px 20px 60px;
+}
 
-    .card:hover {
-      transform: translateY(-10px);
-      border-color: #38bdf8;
-    }
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 15px;
+}
 
-    .card p {
-      color: #94a3b8;
-    }
-  </style>
+.hero p {
+  color: #94a3b8;
+  max-width: 650px;
+  margin: auto;
+  font-size: 16px;
+}
+
+/* ===== CATEGORY SECTION ===== */
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: #020617;
+  padding: 25px;
+  width: 260px;
+  border-radius: 12px;
+  border: 1px solid #1e293b;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  border-color: #38bdf8;
+  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 20px;
+  border-top: 1px solid #1e293b;
+  margin-top: 40px;
+  color: #94a3b8;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 20px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <nav class="navbar">
-    <h2 class="logo">PrepQuest</h2>
-    <div>
-      <button class="nav-btn">Login</button>
-      <button class="nav-btn register">Register</button>
-    </div>
-  </nav>
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="logo">PrepQuest</div>
+  <div class="nav-buttons">
+    <button class="login-btn" id="loginBtn">Login</button>
+    <button class="register-btn" id="registerBtn">Register</button>
+  </div>
+</nav>
 
-  <div class="hero">
-    <h1>Level Up Your Placement Preparation 🚀</h1>
-    <p>
-      Practice Quantitative Aptitude, Logical Reasoning, Verbal Ability,
-      and Coding Challenges in a gamified way.
-    </p>
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <h1>Level Up Your Placement Preparation 🚀</h1>
+  <p>
+    Practice Quantitative Aptitude, Logical Reasoning, Verbal Ability,
+    and Coding Challenges in a gamified way.
+  </p>
+</section>
+
+<!-- ===== CATEGORIES ===== -->
+<section class="categories">
+
+  <div class="card" onclick="openSection('Quantitative Aptitude')">
+    <h3>📊 Quantitative Aptitude</h3>
+    <p>Solve aptitude problems and improve speed & accuracy.</p>
   </div>
 
-  <div class="categories">
-    <div class="card">
-      <h3>📊 Quantitative Aptitude</h3>
-      <p>Solve aptitude problems and improve speed & accuracy.</p>
-    </div>
-
-    <div class="card">
-      <h3>🧠 Logical Reasoning</h3>
-      <p>Strengthen analytical thinking.</p>
-    </div>
-
-    <div class="card">
-      <h3>📖 Verbal Ability</h3>
-      <p>Master grammar and communication skills.</p>
-    </div>
-
-    <div class="card">
-      <h3>💻 Coding Challenges</h3>
-      <p>Practice interview problems.</p>
-    </div>
+  <div class="card" onclick="openSection('Logical Reasoning')">
+    <h3>🧠 Logical Reasoning</h3>
+    <p>Strengthen analytical thinking.</p>
   </div>
+
+  <div class="card" onclick="openSection('Verbal Ability')">
+    <h3>📖 Verbal Ability</h3>
+    <p>Master grammar and communication skills.</p>
+  </div>
+
+  <div class="card" onclick="openSection('Coding Challenges')">
+    <h3>💻 Coding Challenges</h3>
+    <p>Practice interview problems.</p>
+  </div>
+
+</section>
+
+<footer>
+  © 2026 PrepQuest | Built for Placement Success
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+document.getElementById("loginBtn").addEventListener("click", function() {
+  alert("Login feature coming soon!");
+});
+
+document.getElementById("registerBtn").addEventListener("click", function() {
+  alert("Register feature coming soon!");
+});
+
+function openSection(section) {
+  alert("Opening " + section + " section...");
+}
+</script>
 
 </body>
 </html>
