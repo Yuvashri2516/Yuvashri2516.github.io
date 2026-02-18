@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,11 +12,16 @@
   box-sizing: border-box;
 }
 
+/* ✅ Enable vertical scroll */
+html, body {
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 body {
   font-family: "Segoe UI", sans-serif;
   color: white;
-  height: 100vh;
-  overflow-x: hidden;
   background: radial-gradient(circle at 20% 30%, #a855f7, transparent 40%),
               radial-gradient(circle at 80% 70%, #6b21a8, transparent 40%),
               linear-gradient(to bottom, #1e0033, #000000);
@@ -37,12 +41,8 @@ body {
 }
 
 @keyframes flyUp {
-  from {
-    transform: translateY(100vh);
-  }
-  to {
-    transform: translateY(-10vh);
-  }
+  from { transform: translateY(0); }
+  to { transform: translateY(-120vh); }
 }
 
 @keyframes twinkle {
@@ -66,6 +66,7 @@ body {
   font-weight: bold;
 }
 
+/* Buttons */
 .nav-buttons button {
   margin-left: 15px;
   padding: 10px 20px;
@@ -76,15 +77,8 @@ body {
   font-weight: 500;
 }
 
-.login-btn {
-  background: #2e1065;
-  color: white;
-}
-
-.register-btn {
-  background: #c084fc;
-  color: black;
-}
+.login-btn { background: #2e1065; color: white; }
+.register-btn { background: #c084fc; color: black; }
 
 .nav-buttons button:hover {
   transform: scale(1.05);
@@ -109,6 +103,7 @@ body {
   margin: auto;
 }
 
+/* ===== CATEGORIES ===== */
 .categories {
   display: flex;
   justify-content: center;
@@ -122,7 +117,7 @@ body {
 .card {
   background: rgba(0,0,0,0.5);
   padding: 25px;
-  width: 260px;
+  width: 240px;
   border-radius: 12px;
   border: 1px solid #7e22ce;
   transition: 0.3s;
@@ -136,10 +131,32 @@ body {
   border-color: #c084fc;
 }
 
+/* ===== EXTRA PAGES ===== */
+.extra-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.extra-page h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.extra-page p {
+  font-size: 18px;
+  color: #cbd5e1;
+}
+
+/* ===== FOOTER ===== */
 footer {
   text-align: center;
-  padding: 20px;
-  margin-top: 40px;
+  padding: 30px;
   color: #ffffff;
   position: relative;
   z-index: 2;
@@ -157,34 +174,47 @@ footer {
   </div>
 </nav>
 
+<!-- PAGE 1 -->
 <section class="hero">
   <h1>Level Up Your Placement Preparation 🚀</h1>
   <p>
-    Practice Quantitative Aptitude, Logical Reasoning, Verbal Ability,
-    and Coding Challenges in a gamified way.
+    Practice Quantitative Aptitude, Logical Reasoning,
+    Verbal Ability, and Coding Challenges in a gamified way.
   </p>
 </section>
 
 <section class="categories">
-  <div class="card" onclick="openSection('Quantitative Aptitude')">
+  <div class="card">
     <h3>📊 Quantitative Aptitude</h3>
-    <p>Solve aptitude problems and improve speed & accuracy.</p>
+    <p>Improve speed & accuracy.</p>
   </div>
 
-  <div class="card" onclick="openSection('Logical Reasoning')">
+  <div class="card">
     <h3>🧠 Logical Reasoning</h3>
     <p>Strengthen analytical thinking.</p>
   </div>
 
-  <div class="card" onclick="openSection('Verbal Ability')">
+  <div class="card">
     <h3>📖 Verbal Ability</h3>
-    <p>Master grammar and communication skills.</p>
+    <p>Master grammar skills.</p>
   </div>
 
-  <div class="card" onclick="openSection('Coding Challenges')">
+  <div class="card">
     <h3>💻 Coding Challenges</h3>
     <p>Practice interview problems.</p>
   </div>
+</section>
+
+<!-- PAGE 2 -->
+<section class="extra-page">
+  <h2>🚀 Advanced Practice</h2>
+  <p>Take timed mock tests and boost your preparation.</p>
+</section>
+
+<!-- PAGE 3 -->
+<section class="extra-page">
+  <h2>🌌 Premium Dashboard</h2>
+  <p>Track progress, earn badges, and compete with friends.</p>
 </section>
 
 <footer>
@@ -192,7 +222,6 @@ footer {
 </footer>
 
 <script>
-// Button actions
 document.getElementById("loginBtn").onclick = () => {
   alert("Login feature coming soon!");
 };
@@ -201,18 +230,17 @@ document.getElementById("registerBtn").onclick = () => {
   alert("Register feature coming soon!");
 };
 
-function openSection(section) {
-  alert("Opening " + section + " section...");
-}
-
-// Generate Stars
-for (let i = 0; i < 80; i++) {
+// Generate Stars (no straight line issue)
+for (let i = 0; i < 120; i++) {
   let star = document.createElement("div");
   star.className = "star";
+
   star.style.left = Math.random() * 100 + "vw";
-  star.style.animationDuration = (5 + Math.random() * 10) + "s";
-  star.style.animationDelay = Math.random() * 5 + "s";
+  star.style.top = Math.random() * 300 + "vh"; // spread across full scroll
+  star.style.animationDuration = (6 + Math.random() * 10) + "s";
+  star.style.animationDelay = Math.random() * 10 + "s";
   star.style.opacity = Math.random();
+
   document.body.appendChild(star);
 }
 </script>
