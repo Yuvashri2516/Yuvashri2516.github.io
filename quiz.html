@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz Page</title>
+  <style>
+    body {
+      background: #1e0033;
+      color: white;
+      font-family: Segoe UI;
+      text-align: center;
+      padding: 50px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🧠 Quiz</h1>
+<div id="question">Loading...</div>
+<div id="answers"></div>
+
+<script>
+
+async function loadQuiz() {
+  const response = await fetch("https://opentdb.com/api.php?amount=1&type=multiple");
+  const data = await response.json();
+  
+  const quiz = data.results[0];
+
+  document.getElementById("question").innerHTML = quiz.question;
+
+  let answers = [...quiz.incorrect_answers, quiz.correct_answer];
+  answers.sort(() => Math.random() - 0.5);
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  answers.forEach(answer => {
+    const btn = document.createElement("button");
+    btn.innerHTML = answer;
+    btn.onclick = () => {
+      if (answer === quiz.correct_answer) {
+        alert("✅ Correct!");
+      } else {
+        alert("❌ Wrong! Correct answer: " + quiz.correct_answer);
+      }
+      loadQuiz();
+    };
+    answersDiv.appendChild(btn);
+  });
+}
+
+loadQuiz();
+
+</script>
+
+</body>
+</html>
