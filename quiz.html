@@ -1,194 +1,528 @@
+<script>
+if (localStorage.getItem("isLoggedIn") !== "true") {
+    alert("Please login first");
+    window.location.href = "login.html";
+}
+</script>
+<button onclick="logout()">Logout</button>
 
+<script>
+function logout() {
+    localStorage.removeItem("isLoggedIn");
+    window.location.href = "login.html";
+}
+</script>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Infinity Quiz</title>
+<meta charset="UTF-8">
+<title>Career DNA Assessment</title>
 
-  <style>
-    body {
-      background: linear-gradient(to bottom, #000000 25%, #3b0764 70%, #6b21a8 100%);
-      color: white;
-      font-family: Segoe UI;
-      text-align: center;
-      padding: 50px;
-      min-height: 100vh;
-      position: relative;
-    }
+<style>
 
-    /* SCORE CARD */
-    .score-card {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 1000;
-    }
+  body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(
+    to bottom,
+    #000000 25%,
+    #3b0764 70%,
+    #6b21a8 100%
+  );
+}
 
-    .score-card table {
-      border: 2px solid white;
-      border-collapse: collapse;
-      color: white;
-      background: rgba(0,0,0,0.4);
-    }
 
-    .score-card th,
-    .score-card td {
-      border: 2px solid white;
-      padding: 10px 25px;
-      text-align: center;
-      font-size: 16px;
-    }
 
-    .score-card th {
-      background: rgba(255,255,255,0.1);
-    }
+.container {
+  width: 900px;
+  margin: 30px auto;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
 
-    /* Title Alignment */
-    .title {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
-      font-size: 40px;
-      margin-bottom: 30px;
-    }
+h2 {
+  text-align: center;
+  color: #1e3a8a;
+}
 
-    .quiz-text {
-      font-weight: bold;
-    }
+h3 {
+  text-align: center;
+  color: #4338ca;
+  background: #eef2ff;
+  padding: 8px;
+  border-radius: 6px;
+}
 
-    /* Infinity Glow */
-    .infinity {
-      font-size: 60px;
-      color: white;
-      display: inline-block;
-      text-shadow:
-        0 0 10px white,
-        0 0 20px white,
-        0 0 40px #00ffff,
-        0 0 60px #00ffff;
-      transition: transform 0.6s ease;
-    }
+.notice {
+  text-align: center;
+  color: #b91c1c;
+  font-weight: bold;
+  background: #fee2e2;
+  padding: 10px;
+  border-radius: 6px;
+  margin: 15px 0 25px;
+}
 
-    .rotate {
-      transform: rotate(360deg);
-    }
+.question {
+  margin: 12px 0;
+  padding: 10px;
+  background: #f8fafc;
+  border-left: 4px solid #6366f1;
+  border-radius: 6px;
+}
 
-    /* Buttons */
-    button {
-      padding: 12px 25px;
-      margin: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      background: white;
-      color: black;
-      border: none;
-      transition: 0.3s ease;
-    }
+.question input {
+  margin-left: 10px;
+}
 
-    .selected {
-      background: black !important;
-      color: white !important;
-    }
-  </style>
+button {
+  margin-top: 30px;
+  padding: 14px;
+  width: 100%;
+  font-size: 17px;
+  background: linear-gradient(90deg, #2563eb, #7c3aed);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.result {
+  display: none;
+  margin-top: 30px;
+  padding: 20px;
+  background: linear-gradient(135deg, #e0e7ff, #f5f3ff);
+  border-radius: 10px;
+}
+
+canvas {
+  margin-top: 30px;
+  border: 1px solid #c7d2fe;
+}
+</style>
 </head>
 
 <body>
 
-<!-- SCORE CARD -->
-<div class="score-card">
-  <table>
-    <tr>
-      <th>Success</th>
-      <th>Failed</th>
-    </tr>
-    <tr>
-      <td id="successCount">0</td>
-      <td id="failCount">0</td>
-    </tr>
-  </table>
+<div class="container">
+<h2>🧬 Career DNA Assessment</h2>
+
+<div class="notice">
+⚠️ You must attend all 40 questions to get your Career Recommendation
 </div>
 
-<h1 class="title">
-  <span class="infinity">∞</span>
-  <span class="quiz-text">Quiz</span>
-</h1>
+<form id="assessment">
+<h3>🧠 Critical Thinking</h3>
 
-<div id="question">Loading...</div>
-<div id="answers"></div>
+<div class="question">
+  <p>I enjoy solving logical problems.</p>
+  <label><input type="radio" name="ct1" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="ct1" value="2"> Agree</label>
+  <label><input type="radio" name="ct1" value="1"> Neutral</label>
+  <label><input type="radio" name="ct1" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I analyze situations before acting.</p>
+  <label><input type="radio" name="ct2" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="ct2" value="2"> Agree</label>
+  <label><input type="radio" name="ct2" value="1"> Neutral</label>
+  <label><input type="radio" name="ct2" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I question information instead of accepting it blindly.</p>
+  <label><input type="radio" name="ct3" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="ct3" value="2"> Agree</label>
+  <label><input type="radio" name="ct3" value="1"> Neutral</label>
+  <label><input type="radio" name="ct3" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I enjoy strategy-based games or puzzles.</p>
+  <label><input type="radio" name="ct4" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="ct4" value="2"> Agree</label>
+  <label><input type="radio" name="ct4" value="1"> Neutral</label>
+  <label><input type="radio" name="ct4" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I can identify patterns quickly.</p>
+  <label><input type="radio" name="ct5" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="ct5" value="2"> Agree</label>
+  <label><input type="radio" name="ct5" value="1"> Neutral</label>
+  <label><input type="radio" name="ct5" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I enjoy debating ideas logically.</p>
+  <label><input type="radio" name="ct6" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="ct6" value="2"> Agree</label>
+  <label><input type="radio" name="ct6" value="1"> Neutral</label>
+  <label><input type="radio" name="ct6" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I evaluate pros and cons before decisions.</p>
+  <label><input type="radio" name="ct7" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="ct7" value="2"> Agree</label>
+  <label><input type="radio" name="ct7" value="1"> Neutral</label>
+  <label><input type="radio" name="ct7" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I like troubleshooting problems.</p>
+  <label><input type="radio" name="ct8" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="ct8" value="2"> Agree</label>
+  <label><input type="radio" name="ct8" value="1"> Neutral</label>
+  <label><input type="radio" name="ct8" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I enjoy understanding how things work.</p>
+  <label><input type="radio" name="ct9" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="ct9" value="2"> Agree</label>
+  <label><input type="radio" name="ct9" value="1"> Neutral</label>
+  <label><input type="radio" name="ct9" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I remain calm while solving complex issues.</p>
+  <label><input type="radio" name="ct10" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="ct10" value="2"> Agree</label>
+  <label><input type="radio" name="ct10" value="1"> Neutral</label>
+  <label><input type="radio" name="ct10" value="0"> Disagree</label>
+</div>
+<h3>📐 Mathematical Base</h3>
+
+<div class="question">
+  <p>I enjoy working with numbers.</p>
+  <label><input type="radio" name="math1" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="math1" value="2"> Agree</label>
+  <label><input type="radio" name="math1" value="1"> Neutral</label>
+  <label><input type="radio" name="math1" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I like solving equations.</p>
+  <label><input type="radio" name="math2" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="math2" value="2"> Agree</label>
+  <label><input type="radio" name="math2" value="1"> Neutral</label>
+  <label><input type="radio" name="math2" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I can understand graphs and charts easily.</p>
+  <label><input type="radio" name="math3" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="math3" value="2"> Agree</label>
+  <label><input type="radio" name="math3" value="1"> Neutral</label>
+  <label><input type="radio" name="math3" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I like applying math to real-life problems.</p>
+  <label><input type="radio" name="math4" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="math4" value="2"> Agree</label>
+  <label><input type="radio" name="math4" value="1"> Neutral</label>
+  <label><input type="radio" name="math4" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I enjoy learning formulas.</p>
+  <label><input type="radio" name="math5" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="math5" value="2"> Agree</label>
+  <label><input type="radio" name="math5" value="1"> Neutral</label>
+  <label><input type="radio" name="math5" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I am comfortable with calculations.</p>
+  <label><input type="radio" name="math6" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="math6" value="2"> Agree</label>
+  <label><input type="radio" name="math6" value="1"> Neutral</label>
+  <label><input type="radio" name="math6" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I enjoy statistics or data.</p>
+  <label><input type="radio" name="math7" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="math7" value="2"> Agree</label>
+  <label><input type="radio" name="math7" value="1"> Neutral</label>
+  <label><input type="radio" name="math7" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I like accuracy and precision.</p>
+  <label><input type="radio" name="math8" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="math8" value="2"> Agree</label>
+  <label><input type="radio" name="math8" value="1"> Neutral</label>
+  <label><input type="radio" name="math8" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I can learn math concepts quickly.</p>
+  <label><input type="radio" name="math9" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="math9" value="2"> Agree</label>
+  <label><input type="radio" name="math9" value="1"> Neutral</label>
+  <label><input type="radio" name="math9" value="0"> Disagree</label>
+</div>
+
+<div class="question">
+  <p>I enjoy logical calculations.</p>
+  <label><input type="radio" name="math10" value="3"> Strongly Agree</label>
+  <label><input type="radio" name="math10" value="2"> Agree</label>
+  <label><input type="radio" name="math10" value="1"> Neutral</label>
+  <label><input type="radio" name="math10" value="0"> Disagree</label>
+</div>
+<h3>🎨 Art & Creativity</h3>
+
+<div class="question">
+<p>I enjoy drawing or designing.</p>
+<label><input type="radio" name="art1" value="3">Strongly Agree</label>
+<label><input type="radio" name="art1" value="2">Agree</label>
+<label><input type="radio" name="art1" value="1">Neutral</label>
+<label><input type="radio" name="art1" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I like expressing ideas creatively.</p>
+<label><input type="radio" name="art2" value="3">Strongly Agree</label>
+<label><input type="radio" name="art2" value="2">Agree</label>
+<label><input type="radio" name="art2" value="1">Neutral</label>
+<label><input type="radio" name="art2" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I enjoy visual storytelling.</p>
+<label><input type="radio" name="art3" value="3">Strongly Agree</label>
+<label><input type="radio" name="art3" value="2">Agree</label>
+<label><input type="radio" name="art3" value="1">Neutral</label>
+<label><input type="radio" name="art3" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I like experimenting with colors or layouts.</p>
+<label><input type="radio" name="art4" value="3">Strongly Agree</label>
+<label><input type="radio" name="art4" value="2">Agree</label>
+<label><input type="radio" name="art4" value="1">Neutral</label>
+<label><input type="radio" name="art4" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I enjoy creative writing.</p>
+<label><input type="radio" name="art5" value="3">Strongly Agree</label>
+<label><input type="radio" name="art5" value="2">Agree</label>
+<label><input type="radio" name="art5" value="1">Neutral</label>
+<label><input type="radio" name="art5" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I think differently from others.</p>
+<label><input type="radio" name="art6" value="3">Strongly Agree</label>
+<label><input type="radio" name="art6" value="2">Agree</label>
+<label><input type="radio" name="art6" value="1">Neutral</label>
+<label><input type="radio" name="art6" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I enjoy innovation and originality.</p>
+<label><input type="radio" name="art7" value="3">Strongly Agree</label>
+<label><input type="radio" name="art7" value="2">Agree</label>
+<label><input type="radio" name="art7" value="1">Neutral</label>
+<label><input type="radio" name="art7" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I like creating content.</p>
+<label><input type="radio" name="art8" value="3">Strongly Agree</label>
+<label><input type="radio" name="art8" value="2">Agree</label>
+<label><input type="radio" name="art8" value="1">Neutral</label>
+<label><input type="radio" name="art8" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I enjoy imagining new ideas.</p>
+<label><input type="radio" name="art9" value="3">Strongly Agree</label>
+<label><input type="radio" name="art9" value="2">Agree</label>
+<label><input type="radio" name="art9" value="1">Neutral</label>
+<label><input type="radio" name="art9" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I feel confident in creative tasks.</p>
+<label><input type="radio" name="art10" value="3">Strongly Agree</label>
+<label><input type="radio" name="art10" value="2">Agree</label>
+<label><input type="radio" name="art10" value="1">Neutral</label>
+<label><input type="radio" name="art10" value="0">Disagree</label>
+</div>
+<h3>🗣️ Communication</h3>
+
+<div class="question">
+<p>I enjoy speaking with others.</p>
+<label><input type="radio" name="comm1" value="3">Strongly Agree</label>
+<label><input type="radio" name="comm1" value="2">Agree</label>
+<label><input type="radio" name="comm1" value="1">Neutral</label>
+<label><input type="radio" name="comm1" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I can explain ideas clearly.</p>
+<label><input type="radio" name="comm2" value="3">Strongly Agree</label>
+<label><input type="radio" name="comm2" value="2">Agree</label>
+<label><input type="radio" name="comm2" value="1">Neutral</label>
+<label><input type="radio" name="comm2" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I enjoy teamwork.</p>
+<label><input type="radio" name="comm3" value="3">Strongly Agree</label>
+<label><input type="radio" name="comm3" value="2">Agree</label>
+<label><input type="radio" name="comm3" value="1">Neutral</label>
+<label><input type="radio" name="comm3" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I am confident in presentations.</p>
+<label><input type="radio" name="comm4" value="3">Strongly Agree</label>
+<label><input type="radio" name="comm4" value="2">Agree</label>
+<label><input type="radio" name="comm4" value="1">Neutral</label>
+<label><input type="radio" name="comm4" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I listen carefully to others.</p>
+<label><input type="radio" name="comm5" value="3">Strongly Agree</label>
+<label><input type="radio" name="comm5" value="2">Agree</label>
+<label><input type="radio" name="comm5" value="1">Neutral</label>
+<label><input type="radio" name="comm5" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I enjoy discussions.</p>
+<label><input type="radio" name="comm6" value="3">Strongly Agree</label>
+<label><input type="radio" name="comm6" value="2">Agree</label>
+<label><input type="radio" name="comm6" value="1">Neutral</label>
+<label><input type="radio" name="comm6" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I express opinions confidently.</p>
+<label><input type="radio" name="comm7" value="3">Strongly Agree</label>
+<label><input type="radio" name="comm7" value="2">Agree</label>
+<label><input type="radio" name="comm7" value="1">Neutral</label>
+<label><input type="radio" name="comm7" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I like helping people understand things.</p>
+<label><input type="radio" name="comm8" value="3">Strongly Agree</label>
+<label><input type="radio" name="comm8" value="2">Agree</label>
+<label><input type="radio" name="comm8" value="1">Neutral</label>
+<label><input type="radio" name="comm8" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I enjoy leadership roles.</p>
+<label><input type="radio" name="comm9" value="3">Strongly Agree</label>
+<label><input type="radio" name="comm9" value="2">Agree</label>
+<label><input type="radio" name="comm9" value="1">Neutral</label>
+<label><input type="radio" name="comm9" value="0">Disagree</label>
+</div>
+
+<div class="question">
+<p>I communicate confidently.</p>
+<label><input type="radio" name="comm10" value="3">Strongly Agree</label>
+<label><input type="radio" name="comm10" value="2">Agree</label>
+<label><input type="radio" name="comm10" value="1">Neutral</label>
+<label><input type="radio" name="comm10" value="0">Disagree</label>
+</div>
+
+<button type="button" onclick="calculate()">Submit Assessment</button>
+</form>
+
+<div class="result" id="result"></div>
+</div>
 
 <script>
+function calculate() {
+  let inputs = document.querySelectorAll("input[type=radio]");
+  let answered = new Set();
+  inputs.forEach(i => { if (i.checked) answered.add(i.name); });
 
-let questions = [];
-let currentIndex = 0;
-let success = 0;
-let failed = 0;
-
-async function loadQuestions() {
-  const response = await fetch("https://opentdb.com/api.php?amount=10&type=multiple");
-  const data = await response.json();
-
-  questions = data.results;
-  currentIndex = 0;
-
-  showQuestion();
-}
-
-function showQuestion() {
-
-  const infinity = document.querySelector(".infinity");
-  infinity.classList.add("rotate");
-  setTimeout(() => {
-    infinity.classList.remove("rotate");
-  }, 600);
-
-  if (currentIndex >= questions.length) {
-    loadQuestions();
+  if (answered.size < 40) {
+    alert("Please answer ALL 40 questions");
     return;
   }
 
-  const quiz = questions[currentIndex];
-  currentIndex++;
+  let scores = { ct:0, math:0, art:0, comm:0 };
 
-  document.getElementById("question").innerHTML = quiz.question;
-
-  let answers = [...quiz.incorrect_answers, quiz.correct_answer];
-  answers.sort(() => Math.random() - 0.5);
-
-  const answersDiv = document.getElementById("answers");
-  answersDiv.innerHTML = "";
-
-  let answered = false;
-
-  answers.forEach(answer => {
-
-    const btn = document.createElement("button");
-    btn.innerHTML = answer;
-
-    btn.onclick = () => {
-
-      if (answered) return;
-      answered = true;
-
-      btn.classList.add("selected");
-
-      if (answer === quiz.correct_answer) {
-        success++;
-        document.getElementById("successCount").innerText = success;
-      } else {
-        failed++;
-        document.getElementById("failCount").innerText = failed;
-      }
-
-      setTimeout(showQuestion, 600);
-    };
-
-    answersDiv.appendChild(btn);
+  inputs.forEach(i => {
+    if (i.checked) {
+      if (i.name.startsWith("ct")) scores.ct += +i.value;
+      if (i.name.startsWith("math")) scores.math += +i.value;
+      if (i.name.startsWith("art")) scores.art += +i.value;
+      if (i.name.startsWith("comm")) scores.comm += +i.value;
+    }
   });
+
+  let careers = [];
+  if (scores.ct + scores.math >= 40) careers.push("Data Analyst", "AI Engineer", "Software Developer");
+  if (scores.art >= 25) careers.push("UI/UX Designer", "Game Designer", "Content Creator");
+  if (scores.comm >= 25) careers.push("Product Manager", "Teacher", "Consultant");
+  if (careers.length === 0) careers.push("Business Analyst", "Operations Executive");
+
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").innerHTML = `
+    <h3>Your Career Recommendation</h3>
+    <p><b>Critical Thinking:</b> ${scores.ct}</p>
+    <p><b>Mathematical Base:</b> ${scores.math}</p>
+    <p><b>Art & Creativity:</b> ${scores.art}</p>
+    <p><b>Communication:</b> ${scores.comm}</p>
+    <p><b>Suggested Careers:</b> ${[...new Set(careers)].join(", ")}</p>
+
+    <canvas id="scoreGraph" width="600" height="300"></canvas>
+  `;
+
+  drawGraph(scores);
 }
 
-loadQuestions();
+function drawGraph(scores) {
+  const canvas = document.getElementById("scoreGraph");
+  const ctx = canvas.getContext("2d");
 
+  const labels = ["Critical Thinking", "Mathematical", "Art", "Communication"];
+  const values = [scores.ct, scores.math, scores.art, scores.comm];
+  const colors = ["#2563eb", "#16a34a", "#db2777", "#ca8a04"];
+
+  const barWidth = 90;
+  const gap = 30;
+  const maxHeight = 200;
+  const maxScore = 30;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  values.forEach((value, i) => {
+    const x = 40 + i * (barWidth + gap);
+    const barHeight = (value / maxScore) * maxHeight;
+    const y = canvas.height - barHeight - 40;
+
+    ctx.fillStyle = colors[i];
+    ctx.fillRect(x, y, barWidth, barHeight);
+
+    ctx.fillStyle = "#000";
+    ctx.textAlign = "center";
+    ctx.fillText(labels[i], x + barWidth / 2, canvas.height - 15);
+    ctx.fillText(value, x + barWidth / 2, y - 5);
+  });
+}
 </script>
+
 
 </body>
 </html>
